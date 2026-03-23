@@ -60,10 +60,10 @@ const updateUsuario = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     }
 });
 const deleteUsuario = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b;
+    var _a;
     const usuarioId = req.params.usuarioId;
     // Protección de recurso: solo puedes borrarte a ti mismo
-    if (((_b = req.user) === null || _b === void 0 ? void 0 : _b.id) !== usuarioId) {
+    if (((_a = req.user) === null || _a === void 0 ? void 0 : _a.id) !== usuarioId) {
         return res.status(403).json({ message: 'No tienes permiso para borrar a otro usuario' });
     }
     try {

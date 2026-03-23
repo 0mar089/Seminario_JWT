@@ -36,6 +36,10 @@ const router = express_1.default.Router();
  *           type: string
  *           description: ObjectId de la organización
  *           example: "65f1c2a1b2c3d4e5f6789013"
+ *         role:
+ *           type: string
+ *           enum: [user, admin]
+ *           example: "user"
  *     UsuarioCreateUpdate:
  *       type: object
  *       required:
@@ -57,6 +61,10 @@ const router = express_1.default.Router();
  *           type: string
  *           description: ObjectId de la organización (24 hex)
  *           example: "65f1c2a1b2c3d4e5f6789013"
+ *         role:
+ *           type: string
+ *           enum: [user, admin]
+ *           example: "user"
  */
 /**
  * @openapi
@@ -83,8 +91,6 @@ router.post('/', (0, Joi_1.ValidateJoi)(Joi_1.Schemas.usuario.create), Usuario_1
  *   get:
  *     summary: Obtiene un usuario por ID
  *     tags: [Usuarios]
- *     security:
- *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: usuarioId
@@ -98,20 +104,18 @@ router.post('/', (0, Joi_1.ValidateJoi)(Joi_1.Schemas.usuario.create), Usuario_1
  *       404:
  *         description: No encontrado
  */
-router.get('/:usuarioId', auth_1.authenticateToken, Usuario_1.default.readUsuario);
+router.get('/:usuarioId', Usuario_1.default.readUsuario);
 /**
  * @openapi
  * /usuarios:
  *   get:
  *     summary: Lista todos los usuarios
  *     tags: [Usuarios]
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: OK
  */
-router.get('/', auth_1.authenticateToken, Usuario_1.default.readAll);
+router.get('/', Usuario_1.default.readAll);
 /**
  * @openapi
  * /usuarios/{usuarioId}:
@@ -141,7 +145,7 @@ router.get('/', auth_1.authenticateToken, Usuario_1.default.readAll);
  *       422:
  *         description: Validación fallida (Joi)
  */
-router.put('/:usuarioId', auth_1.authenticateToken, (0, Joi_1.ValidateJoi)(Joi_1.Schemas.usuario.update), Usuario_1.default.updateUsuario);
+router.put('/:usuarioId', auth_1.authenticateToken, (0, auth_1.checkRole)(['admin']), (0, Joi_1.ValidateJoi)(Joi_1.Schemas.usuario.update), Usuario_1.default.updateUsuario);
 /**
  * @openapi
  * /usuarios/{usuarioId}:
@@ -163,5 +167,5 @@ router.put('/:usuarioId', auth_1.authenticateToken, (0, Joi_1.ValidateJoi)(Joi_1
  *       404:
  *         description: No encontrado
  */
-router.delete('/:usuarioId', auth_1.authenticateToken, Usuario_1.default.deleteUsuario);
+router.delete('/:usuarioId', auth_1.authenticateToken, (0, auth_1.checkRole)(['admin']), Usuario_1.default.deleteUsuario);
 exports.default = router;

@@ -19,13 +19,13 @@ const createUsuario = (data) => __awaiter(void 0, void 0, void 0, function* () {
     return yield usuario.save();
 });
 const getUsuario = (usuarioId) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield Usuario_1.default.findById(usuarioId).populate('organizacion');
+    return yield Usuario_1.default.findById(usuarioId).select('-password').populate('organizacion');
 });
 const getAllUsuarios = () => __awaiter(void 0, void 0, void 0, function* () {
-    return yield Usuario_1.default.find().populate('organizacion');
+    return yield Usuario_1.default.find().select('-password').populate('organizacion');
 });
 const updateUsuario = (usuarioId, data) => __awaiter(void 0, void 0, void 0, function* () {
-    const usuario = yield Usuario_1.default.findById(usuarioId);
+    const usuario = yield Usuario_1.default.findById(usuarioId).select('-password');
     if (usuario) {
         usuario.set(data);
         return yield usuario.save();

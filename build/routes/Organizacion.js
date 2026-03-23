@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const Organizacion_1 = __importDefault(require("../controllers/Organizacion"));
 const Joi_1 = require("../middleware/Joi");
+const auth_1 = require("../middleware/auth");
 const router = express_1.default.Router();
 /**
  * @openapi
@@ -131,7 +132,7 @@ router.get('/', Organizacion_1.default.readAll);
  *       422:
  *         description: Validación fallida (Joi)
  */
-router.put('/:organizacionId', (0, Joi_1.ValidateJoi)(Joi_1.Schemas.organizacion.update), Organizacion_1.default.updateOrganizacion);
+router.put('/:organizacionId', auth_1.authenticateToken, (0, auth_1.checkRole)(['admin']), (0, Joi_1.ValidateJoi)(Joi_1.Schemas.organizacion.update), Organizacion_1.default.updateOrganizacion);
 /**
  * @openapi
  * /organizaciones/{organizacionId}:
@@ -151,5 +152,5 @@ router.put('/:organizacionId', (0, Joi_1.ValidateJoi)(Joi_1.Schemas.organizacion
  *       404:
  *         description: No encontrado
  */
-router.delete('/:organizacionId', Organizacion_1.default.deleteOrganizacion);
+router.delete('/:organizacionId', auth_1.authenticateToken, (0, auth_1.checkRole)(['admin']), Organizacion_1.default.deleteOrganizacion);
 exports.default = router;

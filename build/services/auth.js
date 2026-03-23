@@ -27,8 +27,8 @@ const validateUserCredentials = (email, password) => __awaiter(void 0, void 0, v
 });
 exports.validateUserCredentials = validateUserCredentials;
 const getTokens = (usuario) => {
-    const accessToken = (0, jwt_1.generateAccessToken)(String(usuario._id), usuario.name, usuario.email, usuario.organizacion);
-    const refreshToken = (0, jwt_1.generateRefreshToken)(String(usuario._id), usuario.name, usuario.email, usuario.organizacion);
+    const accessToken = (0, jwt_1.generateAccessToken)(String(usuario._id), usuario.name, usuario.email, usuario.organizacion, usuario.role);
+    const refreshToken = (0, jwt_1.generateRefreshToken)(String(usuario._id), usuario.name, usuario.email, usuario.organizacion, usuario.role);
     return { accessToken, refreshToken };
 };
 exports.getTokens = getTokens;

@@ -1,6 +1,7 @@
 import express from 'express';
 import controller from '../controllers/Organizacion';
 import { Schemas, ValidateJoi } from '../middleware/Joi';
+import { authenticateToken, checkRole } from '../middleware/auth';
 
 const router = express.Router();
 
@@ -132,7 +133,7 @@ router.get('/', controller.readAll);
  *       422:
  *         description: Validación fallida (Joi)
  */
-router.put('/:organizacionId', ValidateJoi(Schemas.organizacion.update), controller.updateOrganizacion);
+router.put('/:organizacionId', authenticateToken, checkRole(['admin']), ValidateJoi(Schemas.organizacion.update), controller.updateOrganizacion);
 
 /**
  * @openapi
@@ -153,6 +154,6 @@ router.put('/:organizacionId', ValidateJoi(Schemas.organizacion.update), control
  *       404:
  *         description: No encontrado
  */
-router.delete('/:organizacionId', controller.deleteOrganizacion);
+router.delete('/:organizacionId', authenticateToken, checkRole(['admin']), controller.deleteOrganizacion);
 
 export default router;

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.authenticateToken = void 0;
+exports.checkRole = exports.authenticateToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const jwt_1 = require("../utils/jwt");
 const authenticateToken = (req, res, next) => {
@@ -25,3 +25,15 @@ const authenticateToken = (req, res, next) => {
     }
 };
 exports.authenticateToken = authenticateToken;
+const checkRole = (allowedRoles) => {
+    return (req, res, next) => {
+        if (!req.user) {
+            return res.status(401).json({ message: "No autenticado" });
+        }
+        if (!allowedRoles.includes(req.user.role)) {
+            return res.status(403).json({ message: "No tienes permisos suficientes para realizar esta acción" });
+        }
+        next();
+    };
+};
+exports.checkRole = checkRole;

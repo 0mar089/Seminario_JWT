@@ -1,6 +1,6 @@
 <div>
-  <h2>Inicio</h2>
-  <p>Has iniciado sesión correctamente</p>
+  <h2>Bienvenido, {{ userName }}</h2>
+  <p>Has iniciado sesión correctamente como <strong>{{ userRole }}</strong>.</p>
 
   <div style="margin: 20px 0;">
     <h3>Tu Token JWT</h3>
@@ -19,8 +19,8 @@
       Refrescar Token
     </button>
 
-    <div *ngIf="errorUsuarios" class="alert" style="margin-top: 10px;">
-      {{ errorUsuarios }}
+    <div *ngIf="errorUsuarios" class="alert" style="margin-top: 10px; color: red;">
+      <strong>Error:</strong> {{ errorUsuarios }}. (Recuerda que solo los administradores pueden ver la lista completa).
     </div>
 
     <ul *ngIf="usuarios.length > 0" class="list" style="margin-top: 15px;">
@@ -29,6 +29,12 @@
         <span class="muted">{{ u.email }}</span>
       </li>
     </ul>
+  </div>
+
+  <div style="margin: 20px 0;" *ngIf="isAdmin">
+    <button class="btn" style="background: #28a745; color: white;" routerLink="/admin">
+      Ir al Panel de Admin
+    </button>
   </div>
 
   <button class="btn" (click)="logout()">

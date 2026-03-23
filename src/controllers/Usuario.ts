@@ -4,9 +4,10 @@ import UsuarioService from '../services/Usuario';
 import { AuthRequest } from '../middleware/auth';
 
 const createUsuario = async (req: Request, res: Response, next: NextFunction) => {
-   
+
     try {
-        const savedUsuario = await UsuarioService.createUsuario(req.body);
+        const { role, ...userData } = req.body;
+        const savedUsuario = await UsuarioService.createUsuario(userData);
         return res.status(201).json(savedUsuario);
     } catch (error: any) {
         if (error.code === 11000) {
@@ -45,7 +46,8 @@ const updateUsuario = async (req: AuthRequest, res: Response, next: NextFunction
     }
 
     try {
-        const updatedUsuario = await UsuarioService.updateUsuario(usuarioId, req.body);
+        const { role, ...updateData } = req.body;
+        const updatedUsuario = await UsuarioService.updateUsuario(usuarioId, updateData);
         return updatedUsuario ? res.status(201).json(updatedUsuario) : res.status(404).json({ message: 'not found' });
     } catch (error) {
         return res.status(500).json({ error });

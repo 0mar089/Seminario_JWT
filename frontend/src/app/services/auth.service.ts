@@ -23,6 +23,7 @@ export interface LoginResponse {
     name: string;
     email: string;
     organizacion: string;
+    role: 'user' | 'admin';
   };
 }
 
@@ -31,9 +32,11 @@ export interface Usuario {
   name: string;
   email: string;
   organizacion: any;
+  role: 'user' | 'admin';
 }
 
 const TOKEN_KEY = 'jwt_token';
+const USER_KEY = 'user_data';
 const API_URL = 'http://localhost:1337';
 
 @Injectable({
@@ -41,7 +44,7 @@ const API_URL = 'http://localhost:1337';
 })
 export class AuthService {
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
 
   /**
    * Registra un nuevo usuario. NO genera token.
@@ -73,9 +76,32 @@ export class AuthService {
     return this.http.post<LoginResponse>(`${API_URL}/auth/login`, payload, { withCredentials: true }).pipe(
       tap((res) => {
         this.saveToken(res.accessToken);
+        this.saveUser(res.usuario);
         this.router.navigate(['/home']);
       })
     );
+  }
+
+  /** Guarda el usuario en localStorage */
+  private saveUser(usuario: any): void {
+    localStorage.setItem(USER_KEY, JSON.stringify(usuario));
+  }
+
+  /** Obtiene el usuario del localStorage */
+  getUser(): Usuario | null {
+    const user = localStorage.getItem(USER_KEY);
+    return user ? JSON.parse(user) : null;
+  }
+
+  /** Obtiene el rol del usuario */
+  getRole(): string | null {
+    const user = this.getUser();
+    return user ? user.role : null;
+  }
+
+  /** Comprueba si es admin */
+  isAdmin(): boolean {
+    return this.getRole() === 'admin';
   }
 
   /** Guarda el token en localStorage */
@@ -112,6 +138,7 @@ export class AuthService {
     });
 
     localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
     this.router.navigate(['/login']);
   }
 }

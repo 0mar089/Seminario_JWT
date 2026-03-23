@@ -10,15 +10,15 @@ const createUsuario = async (data: Partial<IUsuario>): Promise<IUsuarioModel> =>
 };
 
 const getUsuario = async (usuarioId: string): Promise<IUsuarioModel | null> => {
-    return await Usuario.findById(usuarioId).populate('organizacion');
+    return await Usuario.findById(usuarioId).select('-password').populate('organizacion');
 };
 
 const getAllUsuarios = async (): Promise<IUsuarioModel[]> => {
-    return await Usuario.find().populate('organizacion');
+    return await Usuario.find().select('-password').populate('organizacion');
 };
 
 const updateUsuario = async (usuarioId: string, data: Partial<IUsuario>): Promise<IUsuarioModel | null> => {
-    const usuario = await Usuario.findById(usuarioId);
+    const usuario = await Usuario.findById(usuarioId).select('-password');
     if (usuario) {
         usuario.set(data);
         return await usuario.save();
