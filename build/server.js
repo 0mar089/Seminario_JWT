@@ -18,7 +18,7 @@ const swagger_1 = require("./swagger");
 const router = (0, express_1.default)();
 /** Connect to Mongo */
 mongoose_1.default
-    .connect(config_1.config.mongo.url, { retryWrites: true, w: 'majority' })
+    .connect(config_1.config.mongo.url)
     .then(() => {
     Logging_1.default.info('Mongo connected successfully.');
     StartServer();

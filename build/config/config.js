@@ -27,7 +27,7 @@ exports.config = {
     },
     cookies: {
         refreshName: 'refreshToken',
-        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 días
+        maxAge: 7 * 24 * 60 * 60 * 1000,
         options: {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',

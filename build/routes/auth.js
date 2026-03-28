@@ -58,6 +58,7 @@ router.post('/login', (0, Joi_1.ValidateJoi)(loginSchema), auth_1.login);
  *         description: No autorizado (token faltante o inválido)
  */
 router.post('/refresh', auth_1.refreshToken);
+router.post('/logout', auth_1.logout);
 /**
  * @openapi
  * /auth/logout:

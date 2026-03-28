@@ -44,8 +44,7 @@ exports.Schemas = {
                 .required(),
             name: joi_1.default.string().required(),
             email: joi_1.default.string().email().required(),
-            password: joi_1.default.string().min(6).required(),
-            role: joi_1.default.string().valid('user', 'admin').optional()
+            password: joi_1.default.string().min(6).required()
         }),
         update: joi_1.default.object({
             organizacion: joi_1.default.string()
@@ -53,8 +52,7 @@ exports.Schemas = {
                 .required(),
             name: joi_1.default.string().required(),
             email: joi_1.default.string().email().required(),
-            password: joi_1.default.string().min(6).required(),
-            role: joi_1.default.string().valid('user', 'admin').optional()
+            password: joi_1.default.string().min(6).required()
         })
     }
 };
