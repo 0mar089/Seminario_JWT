@@ -1,5 +1,10 @@
 # Seminario 7 EA — JWT (Arquitectura Profesional)
 
+Se ha usado Gemini 3 para:
+1. Entender el html del angular paso a paso
+2. Arreglar un bug que me daba error 500 en el servidor
+3. Crear unas fucniones en el auth.service
+
 ¡Bienvenido al **Seminario 7 de Entornos de Aplicaciones (EA)**! Este proyecto demuestra una implementación avanzada y segura de autenticación mediante **JWT (JSON Web Tokens)** utilizando una arquitectura de **Access y Refresh Tokens**, ahora refactorizada siguiendo principios de diseño profesional (Separación de responsabilidades y Configuración Centralizada).
 
 > **IMPORTANTE: Web Sockets**
